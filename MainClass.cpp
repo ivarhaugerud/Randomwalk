@@ -29,7 +29,7 @@ MainClass::MainClass()
   {
     for (int i = 1; i < N; i++)
     {
-      initial_angle = distribution(generator);
+      initial_angle = 2*pi*distribution(generator);
       state(i, 0) = R*cos(initial_angle);
       state(i, 1) = R*sin(initial_angle);
 
@@ -37,11 +37,11 @@ MainClass::MainClass()
       while (not_locked)
       {
         state(i, 0) += (distribution(generator)-bias*sign(state(i,0)))*eta;
-        state(i, 1) += (distribution(generator)-bias*sign(state(i,0)))*eta;
+        state(i, 1) += (distribution(generator)-bias*sign(state(i,1)))*eta;
 
         for (int j = 0; j < M; j++)
         {
-          if  (sqrt(pow( state(i,0)*state(i,0) - state(j,0)*state(j,0), 2) + pow( state(i,1)*state(i,1) - state(j,1)*state(j,1), 2)) < r)
+          if  (sqrt( (state(i,0)-state(j,0)) * (state(i,0)-state(j,0)) + (state(i,1)-state(j,1)) * (state(i,1)-state(j,1)) )  < r)
           {
             not_locked = false;
             M += 1;

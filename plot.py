@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
 import os
+from colour import Color
 
 plt.style.use("bmh")
 sns.color_palette("hls", 1)
@@ -20,9 +21,16 @@ def get_data(filename, variables):
                     names=variables)
     return df
     #using pandas to read the data files
+red = Color("red")
 
 
 data = get_data("data/test.txt", ["x", "y"])
 
-plt.scatter(data["x"], data["y"])
+s = int(len(np.array(data["x"])))
+a = np.linspace(0, s-1, s)
+colors = list(red.range_to(Color("green"), s))
+
+#for i in range(s):
+plt.scatter(np.array(data["x"]), np.array(data["y"]), s=2, c=a)
+plt.axis("equal")
 plt.show()

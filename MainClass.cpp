@@ -14,7 +14,7 @@ MainClass::MainClass()
     bias = radius_bias;
 
     //define arrays and vectors
-    state = Mat<double>(N+1, 2); //r and phi
+    state = Mat<double>(N+1, 3); //r and phi
     filename = save_name;
 
     //for saving data
@@ -25,7 +25,7 @@ MainClass::MainClass()
     std::uniform_real_distribution<double> distribution(-1, 1);
   }
 
-  void MainClass::run()
+  void MainClass::run_2D()
   {
     for (int i = 1; i < N; i++)
     {

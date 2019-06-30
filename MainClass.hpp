@@ -42,7 +42,7 @@ public:
   MainClass(int nr_of_particles, double rnoise, double locking_radius,
                                              double initial_distance, double radius_bias, string save_name);
 
-  void run();
+  void run_2D();
   void write();
   int sign(double x);
 };

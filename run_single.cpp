@@ -27,7 +27,7 @@ int main(int argc, char const *argv[])
 
     MainClass virre(number_of_particles, noise, locking_radius, initial_distance, radius_bias, save_name);
 
-    virre.run();
+    virre.run_2D();
     virre.write();
 
     return 0;

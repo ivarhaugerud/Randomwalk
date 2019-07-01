@@ -24,7 +24,7 @@ def get_data(filename, variables):
 red = Color("red")
 
 
-data = get_data("data/test.txt", ["x", "y"])
+data = get_data("data/mysen.txt", ["x", "y", "z"])
 
 s = int(len(np.array(data["x"])))
 a = np.linspace(0, s-1, s)
@@ -33,4 +33,13 @@ colors = list(red.range_to(Color("green"), s))
 #for i in range(s):
 plt.scatter(np.array(data["x"]), np.array(data["y"]), s=2, c=a)
 plt.axis("equal")
+plt.show()
+
+
+from mpl_toolkits.mplot3d import Axes3D
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+ax.scatter(np.array(data["x"]), np.array(data["y"]), np.array(data["z"]), s=2, c=a)
+ax.axis("equal")
+
 plt.show()

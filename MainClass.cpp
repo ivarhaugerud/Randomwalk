@@ -7,7 +7,6 @@ MainClass::MainClass()
                                             double initial_distance, double radius_bias, string save_name )
   {
     N = nr_of_particles;
-    M = 1; //number of locked
     eta = noise;
     R = initial_distance;
     r = locking_radius;
@@ -25,7 +24,7 @@ MainClass::MainClass()
     std::uniform_real_distribution<double> distribution(-1, 1);
   }
 
-  void MainClass::run_2D()
+  void MainClass::run_2D(int number_of_tries)
   {
     for (int i = 1; i < N; i++)
     {
@@ -34,20 +33,66 @@ MainClass::MainClass()
       state(i, 1) = R*sin(initial_angle);
 
       not_locked = true;
-      while (not_locked)
+      for (int j = 0; j < number_of_tries; j++) //number of tries
       {
         state(i, 0) += (distribution(generator)-bias*sign(state(i,0)))*eta;
         state(i, 1) += (distribution(generator)-bias*sign(state(i,1)))*eta;
 
-        for (int j = 0; j < M; j++)
+        for (int k = 0; k < i; k++)
         {
-          if  (sqrt( (state(i,0)-state(j,0)) * (state(i,0)-state(j,0)) + (state(i,1)-state(j,1)) * (state(i,1)-state(j,1)) )  < r)
+          if  (sqrt( (state(i,0)-state(k,0)) * (state(i,0)-state(k,0)) + (state(i,1)-state(k,1)) * (state(i,1)-state(k,1)) )  < r)
           {
             not_locked = false;
-            M += 1;
             break;
           }
         }
+      if (!not_locked)
+      {break;}
+      }
+
+      if (not_locked)
+      {
+        state(i,0) = 0;
+        state(i,1) = 0;
+      }
+    }
+  }
+
+
+  void MainClass::run_3D(int number_of_tries)
+  {
+    for (int i = 1; i < N; i++)
+    {
+      phi   = 2*pi*distribution(generator);
+      theta = 2*pi*distribution(generator);
+      state(i, 0) = R*cos(phi)*sin(theta);
+      state(i, 1) = R*sin(phi)*sin(theta);
+      state(i, 2) = R*cos(theta);
+
+      not_locked = true;
+      for (int j = 0; j < number_of_tries; j++) //number of tries
+      {
+        state(i, 0) += (distribution(generator)-0.5-bias*sign(state(i,0)))*eta;
+        state(i, 1) += (distribution(generator)-0.5-bias*sign(state(i,1)))*eta;
+        state(i, 2) += (distribution(generator)-0.5-bias*sign(state(i,2)))*eta;
+
+        for (int k = 0; k < i; k++)
+        {
+          if  (sqrt( (state(i,0)-state(k,0)) * (state(i,0)-state(k,0)) + (state(i,1)-state(k,1)) * (state(i,1)-state(k,1)) )  < r)
+          {
+            not_locked = false;
+            break;
+          }
+        }
+      if (!not_locked)
+      {break;}
+      }
+
+      if (not_locked)
+      {
+        state(i,0) = 0;
+        state(i,1) = 0;
+        state(i,2) = 0;
       }
     }
   }
@@ -62,7 +107,7 @@ MainClass::MainClass()
       else
         {for (int i = 0; i < N; i++)
           {
-            outfile << state(i, 0) << " " << state(i, 1) << "\n";
+            outfile << state(i, 0) << " " << state(i, 1) << " " << state(i, 2) << "\n";
           }
         }
   }

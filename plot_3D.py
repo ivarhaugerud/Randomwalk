@@ -4,6 +4,7 @@ import pandas as pd
 import seaborn as sns
 import os
 from colour import Color
+from mpl_toolkits.mplot3d import Axes3D
 
 plt.style.use("bmh")
 sns.color_palette("hls", 1)
@@ -30,6 +31,9 @@ s = int(len(np.array(data["x"])))
 a = np.linspace(0, s-1, s)
 colors = list(red.range_to(Color("green"), s))
 
-plt.scatter(np.array(data["x"]), np.array(data["y"]), s=2, c=a)
-plt.axis("equal")
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+ax.scatter(np.array(data["x"]), np.array(data["y"]), np.array(data["z"]), s=2, c=a)
+ax.axis("equal")
+
 plt.show()

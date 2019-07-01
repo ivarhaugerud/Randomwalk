@@ -35,8 +35,8 @@ MainClass::MainClass()
       not_locked = true;
       for (int j = 0; j < number_of_tries; j++) //number of tries
       {
-        state(i, 0) += (distribution(generator)-bias*sign(state(i,0)))*eta;
-        state(i, 1) += (distribution(generator)-bias*sign(state(i,1)))*eta;
+        state(i, 0) += (distribution(generator)-0.5-bias*sign(state(i,0)))*eta;
+        state(i, 1) += (distribution(generator)-0.5-bias*sign(state(i,1)))*eta;
 
         for (int k = 0; k < i; k++)
         {

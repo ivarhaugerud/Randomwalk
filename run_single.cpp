@@ -23,11 +23,11 @@ int main(int argc, char const *argv[])
     double initial_distance = atof(argv[4]);
     double radius_bias      = atof(argv[5]);
 
-    string save_name  = "mysen";
+    string save_name  = "mysen_2_sircle";
 
     MainClass virre(number_of_particles, noise, locking_radius, initial_distance, radius_bias, save_name);
 
-    virre.run_2D(1000000);
+    virre.sircle(10000);
     virre.write();
 
     return 0;

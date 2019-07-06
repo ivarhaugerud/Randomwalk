@@ -24,7 +24,7 @@ MainClass::MainClass()
     std::uniform_real_distribution<double> distribution(-1, 1);
   }
 
-  void MainClass::run_2D(int number_of_tries)
+  void MainClass::sircle(int number_of_tries)
   {
     for (int i = 1; i < N; i++)
     {
@@ -59,7 +59,7 @@ MainClass::MainClass()
   }
 
 
-  void MainClass::run_3D(int number_of_tries)
+  void MainClass::sphere(int number_of_tries)
   {
     for (int i = 1; i < N; i++)
     {
@@ -78,7 +78,7 @@ MainClass::MainClass()
 
         for (int k = 0; k < i; k++)
         {
-          if  (sqrt( (state(i,0)-state(k,0)) * (state(i,0)-state(k,0)) + (state(i,1)-state(k,1)) * (state(i,1)-state(k,1)) )  < r)
+          if  (sqrt( (state(i,0)-state(k,0)) * (state(i,0)-state(k,0)) + (state(i,1)-state(k,1)) * (state(i,1)-state(k,1)) + (state(i,2)-state(k,2)) * (state(i,2)-state(k,2)) )  < r)
           {
             not_locked = false;
             break;
@@ -97,6 +97,40 @@ MainClass::MainClass()
     }
   }
 
+  void MainClass::rectangle(int number_of_tries)
+  {
+    for (int i = 1; i < N; i++)
+    {
+      state(i, 0) = distribution(generator);
+      state(i, 1) = R;
+      state(i, 2) = 0;
+
+      not_locked = true;
+      for (int j = 0; j < number_of_tries; j++) //number of tries
+      {
+        state(i, 0) += (distribution(generator)-0.5)*eta;
+        state(i, 1) += (distribution(generator)-0.5-bias*sign(state(i,1)))*eta;
+
+        for (int k = 0; k < i; k++)
+        {
+          if  (sqrt( (state(i,0)-state(k,0)) * (state(i,0)-state(k,0)) + (state(i,1)-state(k,1)) * (state(i,1)-state(k,1)) )  < r   |  state(i,1) < r)
+          {
+            not_locked = false;
+            break;
+          }
+        }
+      if (!not_locked)
+      {break;}
+      }
+
+      if (not_locked)
+      {
+        state(i,0) = 0;
+        state(i,1) = 0;
+        state(i,2) = 0;
+      }
+    }
+  }
   void MainClass::write()
   {
     std::ofstream outfile;

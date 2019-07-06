@@ -43,8 +43,9 @@ public:
   MainClass(int nr_of_particles, double rnoise, double locking_radius,
                                              double initial_distance, double radius_bias, string save_name);
 
-  void run_2D(int number_of_tries);
-  void run_3D(int number_of_tries);
+  void sircle(int number_of_tries);
+  void sphere(int number_of_tries);
+  void rectangle(int number_of_tries);
   void write();
   int sign(double x);
 };

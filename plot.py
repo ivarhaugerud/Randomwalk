@@ -24,7 +24,7 @@ def get_data(filename, variables):
 red = Color("red")
 
 
-data = get_data("data/mysen.txt", ["x", "y", "z"])
+data = get_data("data/mysen_2_sircle.txt", ["x", "y", "z"])
 
 s = int(len(np.array(data["x"])))
 a = np.linspace(0, s-1, s)
